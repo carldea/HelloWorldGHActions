@@ -1,0 +1,43 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ 17 ]
+        distribution: [ 'zulu', 'microsoft', 'liberica' ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: actions/setup-java@v2.5
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+  
+  disco-build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ 17 ]
+        distribution: [ 'zulu', 'zulu_prime', 'corretto', 'semeru' ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: foojayio/setup-java@disco
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: ${{ matrix.distribution }}
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+      
