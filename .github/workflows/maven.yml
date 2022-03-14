@@ -1,4 +1,4 @@
-name: Java CI with Maven
+name: Using setup-java@v2 with fixed JDK versions and EA release 
 
 on:
   push:
