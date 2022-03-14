@@ -7,13 +7,13 @@ on:
     branches: [ main ]
 
 jobs:
-  build_wopenjdk_17_18:
+  build_wopenjdk_17:
 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ 17, 18 ]
-        java-fixed-version: [ 17.0.1, 18-ea ]
+        java-version: [ 17, 17 ]
+        java-fixed-version: [ 17.0.1, 'latest' ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Oracle Open JDK ${{ matrix.java-version }}
