@@ -15,7 +15,7 @@ jobs:
         java-version: [ 17, 18 ]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up JDK ${{ matrix.java-version }}
+    - name: Set up Oracle Open JDK ${{ matrix.java-version }}
       uses: oracle-actions/setup-java@v1
       id: download-jdk
       with:
