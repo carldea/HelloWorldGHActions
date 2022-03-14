@@ -1,0 +1,33 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [ 17, 18-ea ]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK ${{ matrix.java-version }}
+      uses: oracle-actions/setup-java@v1
+      id: download-jdk
+      with:
+        website: jdk.java.net
+        release: ${{ matrix.java-version }}
+    - name: 'Print outputs'
+        shell: bash
+        run: |
+          echo 'Outputs'
+          echo "steps.download-jdk.outputs.archive = ${{ steps.download-jdk.outputs.archive }}"
+          echo "steps.download-jdk.outputs.version = ${{ steps.download-jdk.outputs.version }}"
+    - name: 'JDK Version'
+        run: java --version
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
