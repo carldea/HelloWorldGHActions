@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build_wopenjdk_17:
+  build_with_oraclejdk_17:
 
     runs-on: ubuntu-latest
     strategy:
@@ -23,7 +23,6 @@ jobs:
         website: oracle.com
         release: ${{ matrix.java-version }}
         version: ${{ matrix.java-fixed-version }}
-        distribution: 'zulu'
         install: true
     - name: 'Print outputs'
       shell: bash
@@ -35,12 +34,12 @@ jobs:
       run: java --version
     - name: Build with Maven
       run: mvn -B package --file pom.xml 
-  build_wopenjdk_loom:
+  build_with_oracle_openjdk_loom_panama_valhalla:
 
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ '18', 'loom', 'panama' ]
+        java-version: [ '18', 'loom', 'panama', 'valhalla' ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Oracle Open JDK ${{ matrix.java-version }}
