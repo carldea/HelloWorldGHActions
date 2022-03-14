@@ -12,8 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ 17, 17 ]
-        java-fixed-version: [ 17.0.1, 'latest' ]
+        java-release-version: [ 17, 17 ]
+        java-version: [ 17.0.1, 'latest' ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up Oracle JDK ${{ matrix.java-version }}
@@ -21,8 +21,8 @@ jobs:
       id: download-jdk
       with:
         website: oracle.com
-        release: ${{ matrix.java-version }}
-        version: ${{ matrix.java-fixed-version }}
+        release: ${{ matrix.java-release-version }}
+        version: ${{ matrix.java-version }}
         install: true
     - name: 'Print outputs'
       shell: bash
@@ -30,7 +30,7 @@ jobs:
         echo 'Outputs'
         echo "steps.download-jdk.outputs.archive = ${{ steps.download-jdk.outputs.archive }}"
         echo "steps.download-jdk.outputs.version = ${{ steps.download-jdk.outputs.version }}"
-    - name: 'JDK Version'
+    - name: Oracle JDK Version ${{ matrix.java-release-version }} - ${{ matrix.java-version }}
       run: java --version
     - name: Build with Maven
       run: mvn -B package --file pom.xml 
@@ -39,22 +39,22 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ '18', 'loom', 'panama', 'valhalla' ]
+        java-release-version: [ '18', 'loom', 'panama', 'valhalla' ]
     steps:
     - uses: actions/checkout@v2
-    - name: Set up Oracle Open JDK ${{ matrix.java-version }}
+    - name: Set up Oracle Open JDK ${{ matrix.java-release-version }} - latest
       uses: oracle-actions/setup-java@v1
       id: download-jdk
       with:
         website: jdk.java.net
-        release: ${{ matrix.java-version }}
+        release: ${{ matrix.java-release-version }}
     - name: 'Print outputs'
       shell: bash
       run: |
         echo 'Outputs'
         echo "steps.download-jdk.outputs.archive = ${{ steps.download-jdk.outputs.archive }}"
         echo "steps.download-jdk.outputs.version = ${{ steps.download-jdk.outputs.version }}"
-    - name: 'JDK Version'
+    - name: Oracle OpenJDK Version ${{ matrix.java-release-version }}
       run: java --version
     - name: Build with Maven
       run: mvn -B package --file pom.xml
