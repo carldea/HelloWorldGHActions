@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [ 17, 18-ea ]
+        java-version: [ 17, 18 ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK ${{ matrix.java-version }}
@@ -21,13 +21,15 @@ jobs:
       with:
         website: jdk.java.net
         release: ${{ matrix.java-version }}
+        distribution: 'zulu'
+        install: true
     - name: 'Print outputs'
-        shell: bash
-        run: |
-          echo 'Outputs'
-          echo "steps.download-jdk.outputs.archive = ${{ steps.download-jdk.outputs.archive }}"
-          echo "steps.download-jdk.outputs.version = ${{ steps.download-jdk.outputs.version }}"
+      shell: bash
+      run: |
+        echo 'Outputs'
+        echo "steps.download-jdk.outputs.archive = ${{ steps.download-jdk.outputs.archive }}"
+        echo "steps.download-jdk.outputs.version = ${{ steps.download-jdk.outputs.version }}"
     - name: 'JDK Version'
-        run: java --version
+      run: java --version
     - name: Build with Maven
       run: mvn -B package --file pom.xml
