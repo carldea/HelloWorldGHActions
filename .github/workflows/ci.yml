@@ -5,6 +5,8 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   build:
@@ -12,7 +14,7 @@ jobs:
     strategy:
       matrix:
         java-version: [ 17 ]
-        distribution: [ 'zulu', 'microsoft', 'liberica' ]
+        distribution: [ 'zulu', 'microsoft', 'liberica', 'corretto' ]
     steps:
     - uses: actions/checkout@v2
     - name: Set up JDK ${{ matrix.java-version }}
